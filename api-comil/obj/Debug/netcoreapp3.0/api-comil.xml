@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>api-comil</name>
+    </assembly>
+    <members>
+        <member name="M:api_comil.Controllers.TipoUsuarioController.Get">
+            <summary>
+            Método de Listar tipo de Usuário 
+            </summary>
+            <returns>Retorna o tipo de usuário</returns>
+        </member>
+        <member name="M:api_comil.Controllers.TipoUsuarioController.Get(System.Int32)">
+            <summary>
+            Método para encontrar tipo de usuário(nível de acesso) pelo id.
+            </summary>
+            <param name="id">Recebe id pelo tipo de usuário</param>
+            <returns>Retorna o tipo de usuário</returns>
+        </member>
+    </members>
+</doc>
