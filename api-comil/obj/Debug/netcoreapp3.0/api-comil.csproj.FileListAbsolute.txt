@@ -46,3 +46,12 @@ C:\Users\fic\Desktop\Nova pasta projeto\community-inlouge\api-comil\obj\Debug\ne
 C:\Users\fic\Desktop\Nova pasta projeto\community-inlouge\api-comil\obj\Debug\netcoreapp3.0\api-comil.csproj.CopyComplete
 C:\Users\fic\Desktop\Nova pasta projeto\community-inlouge\api-comil\obj\Debug\netcoreapp3.0\api-comil.dll
 C:\Users\fic\Desktop\Nova pasta projeto\community-inlouge\api-comil\obj\Debug\netcoreapp3.0\api-comil.pdb
+C:\Users\fic\Desktop\Nova pasta projeto\community-inlouge\api-comil\bin\Debug\netcoreapp3.0\api-comil.xml
+C:\Users\fic\Desktop\Nova pasta projeto\community-inlouge\api-comil\bin\Debug\netcoreapp3.0\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\fic\Desktop\Nova pasta projeto\community-inlouge\api-comil\bin\Debug\netcoreapp3.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\fic\Desktop\Nova pasta projeto\community-inlouge\api-comil\bin\Debug\netcoreapp3.0\Microsoft.OpenApi.dll
+C:\Users\fic\Desktop\Nova pasta projeto\community-inlouge\api-comil\bin\Debug\netcoreapp3.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\fic\Desktop\Nova pasta projeto\community-inlouge\api-comil\bin\Debug\netcoreapp3.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\fic\Desktop\Nova pasta projeto\community-inlouge\api-comil\bin\Debug\netcoreapp3.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\fic\Desktop\Nova pasta projeto\community-inlouge\api-comil\obj\Debug\netcoreapp3.0\api-comil.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\fic\Desktop\Nova pasta projeto\community-inlouge\api-comil\obj\Debug\netcoreapp3.0\api-comil.xml

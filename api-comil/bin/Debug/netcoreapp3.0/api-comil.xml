@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>api-comil</name>
+    </assembly>
+    <members>
+        <member name="F:api_comil.Controllers.ComunidadeController.repositorio">
+            <summary>
+            Método resposável por fazer busca de todas as comunidade no banco de dados
+            </summary>
+            <returns>Todas as comunidades cadastradas no banco de dados</returns>
+        </member>
+        <member name="M:api_comil.Controllers.ComunidadeController.Get(System.Int32)">
+            <summary>
+            Método resposável por fazer busca de uma comunidade expecífica através do parâmetro - ID
+            </summary>
+            <param name="id">Recebe i ID da comunidade</param>
+            <returns>Comundade correspondente ao ID digitado</returns>
+        </member>
+        <member name="M:api_comil.Controllers.ComunidadeController.Put(System.Int32,api_comil.Models.Comunidade)">
+            <summary>
+            Método resposável por fazer alteração na comunidade encontrada através do ID ou nome de uma comunidade 
+            </summary>
+            <param name="id">Recebe ID da comunidade</param>
+            <param name="comunidade">Recebe o objeto comunidade</param>
+            <returns>Comunidade alterada</returns>
+        </member>
+        <member name="M:api_comil.Controllers.ComunidadeController.Delete(System.Int32)">
+            <summary>
+            Método resposável por deletar uma comunidade, mudando seu status deixando-a desabilitada
+            </summary>
+            <param name="id">Id da comunidade</param>
+            <returns>Comunidade que foi desativada do sistema</returns>
+        </member>
+        <member name="M:api_comil.Controllers.ComunidadeController.Post(api_comil.Models.Comunidade)">
+            <summary>
+            Método responsável por cadastrar uma comunidade
+            </summary>
+            <param name="comunidade">Objeto comunidade</param>
+            <returns>Comunidade cadastrada</returns>
+        </member>
+    </members>
+</doc>
