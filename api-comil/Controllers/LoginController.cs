@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -6,6 +7,7 @@ using System.Text;
 using api_comil.Models;
 using api_comil.ViewModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -42,7 +44,9 @@ namespace api_comil.Controllers
             var claims = new[]{
                 new Claim(JwtRegisteredClaimNames.NameId, usr.Nome),
                 new Claim(ClaimTypes.Role, usr.TipoUsuario.Titulo),
-                new Claim(JwtRegisteredClaimNames.Jti, usr.UsuarioId.ToString() ),
+                new Claim(JwtRegisteredClaimNames.Sub, usr.UsuarioId.ToString()),
+                new Claim("Roles", usr.TipoUsuario.Titulo)
+
             };
 
             var token = new JwtSecurityToken(configuration["Token:Issuer"], 
@@ -68,7 +72,8 @@ namespace api_comil.Controllers
                             if (resp != null)
                             {
                                 var tokenString = gerarToken(resp);
-                                res = Ok(new { token = tokenString });
+                                var id = resp.UsuarioId;
+                                res = Ok(new { token = tokenString, UsuarioId = id });
                             }
 
                             return res;
@@ -79,6 +84,7 @@ namespace api_comil.Controllers
                     throw;
                 }
         }
+
 
 
     }
