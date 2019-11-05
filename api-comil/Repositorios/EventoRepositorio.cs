@@ -116,7 +116,7 @@ namespace api_comil.Repositorios
             throw new System.NotImplementedException();
         }
 
-        public Task<ActionResult<Evento>> update()
+        public Task<ActionResult<Evento>> Update()
         {
             throw new System.NotImplementedException();
         }
