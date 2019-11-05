@@ -11,6 +11,7 @@ namespace api_comil.Interfaces
         Task<Categoria> Get(int id);
         Task<Categoria> Post(Categoria categoria);
         Task<ActionResult<Categoria>> Delete(Categoria categoria);
+        Task<Categoria> Get(Categoria categoria);
 
     }
 }

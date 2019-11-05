@@ -34,5 +34,10 @@ namespace api_comil.Repositorios
             await db.SaveChangesAsync();
             return categoria;
         }
+
+        public async Task<Categoria> Get(Categoria categoria)
+        {
+            return await db.Categoria.FirstOrDefaultAsync(f => f.Nome == categoria.Nome);
+        }
     }
 }

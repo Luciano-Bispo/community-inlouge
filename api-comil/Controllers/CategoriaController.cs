@@ -31,7 +31,8 @@ namespace api_comil.Controllers
         public async Task<ActionResult<Categoria>> Get(int id)
         {
             Categoria categoriaRetornada = await repositorio.Get(id);
-            if(categoriaRetornada == null){
+            if (categoriaRetornada == null)
+            {
                 return NotFound();
             }
             return categoriaRetornada;
@@ -43,11 +44,12 @@ namespace api_comil.Controllers
         {
             var categoriaRetornada = await repositorio.Get(id);
 
-            if(categoriaRetornada != null)
+            if (categoriaRetornada != null)
             {
                 categoriaRetornada.DeletedoEm = DateTime.Now;
                 await repositorio.Delete(categoriaRetornada);
-            }else
+            }
+            else
             {
                 BadRequest();
             }
@@ -58,14 +60,25 @@ namespace api_comil.Controllers
         {
             try
             {
-                await repositorio.Post(categoria);
-                return categoria;
+                var categoriaNome = repositorio.Get(categoria);
+                if (categoriaNome != null)
+                {
+                    await repositorio.Post(categoria);
+                    return categoria;
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
                 return BadRequest();
                 throw;
             }
+
+
+
         }
     }
 }
