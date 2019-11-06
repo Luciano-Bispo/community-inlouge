@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using api_comil.Models;
 using api_comil.Repositorios;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api_comil.Controllers
 {
@@ -15,7 +16,7 @@ namespace api_comil.Controllers
 
         [HttpGet]
         public async Task<ActionResult<List<Evento>>> Get(){
-            return await EventoRep.Get();
+         return await EventoRep.Get();
         }
 
 
@@ -23,6 +24,37 @@ namespace api_comil.Controllers
         public async Task<ActionResult<Evento>> Get(int id){
             return await EventoRep.Get(id);
         }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, Evento evento)
+        {
+        if(id != evento.EventoId) return BadRequest();
+        if(evento.DeletedoEm != null) return NotFound();   
+                
+
+        try        
+        {
+            Evento eventoValido = EventoRep.Get(id).Result;
+            if(eventoValido == null)
+            {
+            return NotFound();
+            }
+            else
+            {  
+            await EventoRep.Update(evento);
+            }
+            
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+        throw;
+        }
+        return NoContent();
+
+     
+    }
+
     }
 
 }

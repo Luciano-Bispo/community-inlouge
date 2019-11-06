@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using api_comil.Interfaces;
@@ -48,10 +49,11 @@ namespace api_comil.Repositorios
             return listEven;
         }
 
-        public async Task<ActionResult<Evento>> Get(int id)
+
+        public async Task<Evento> Get(int id)
         {
             var evento = await db.Evento
-             .Include(i => i.Categoria)
+            .Include(i => i.Categoria)
             .Include(c => c.Comunidade)
             .FirstOrDefaultAsync(f => f.EventoId == id);
 
@@ -116,9 +118,18 @@ namespace api_comil.Repositorios
             throw new System.NotImplementedException();
         }
 
-        public Task<ActionResult<Evento>> Update()
+        public async Task<ActionResult<Evento>> Update(Evento evento)
         {
-            throw new System.NotImplementedException();
+        if(evento.StatusEvento == "Aprovado")
+        {
+            Evento eventoRetornado = await db.Evento.FindAsync(evento.EventoId);
+            eventoRetornado.Nome = evento.Nome;
+            db.Evento.Update(eventoRetornado);
+        }else
+        {
+           db.Entry(evento).State = EntityState.Modified;
+        }
+        return evento;
         }
 
         public Task<ActionResult<List<Evento>>> Week()
