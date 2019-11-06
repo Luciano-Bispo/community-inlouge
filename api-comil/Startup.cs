@@ -1,22 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.IO;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace api_comil
 {
@@ -58,7 +53,7 @@ namespace api_comil
                     //Configura os valores dos campos habilitados acima para validação   
                     ValidIssuer = Configuration["Token:Issuer"],
                     ValidAudience = Configuration["Token:Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"]))
                 }; 
             });
             
@@ -82,13 +77,15 @@ namespace api_comil
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
 
             app.UseCors();
 
             app.UseRouting();
+            
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
