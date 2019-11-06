@@ -7,7 +7,7 @@ namespace api_comil.Interfaces
 {
     public interface IEvento
     {
-        Task<ActionResult<Evento>> Post();
+        Task<ActionResult<Evento>> Post(Evento evento);
         Task<ActionResult<Evento>> update();//validações de edição
         Task<ActionResult> Delete();
         Task<ActionResult<List<Evento>>> Get();

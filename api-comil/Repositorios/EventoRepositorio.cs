@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using api_comil.Interfaces;
 using api_comil.Models;
@@ -91,9 +93,19 @@ namespace api_comil.Repositorios
             throw new System.NotImplementedException();
         }
 
-        public Task<ActionResult<Evento>> Post()
+        public async Task<ActionResult<Evento>> Post(Evento evento)
         {
-            throw new System.NotImplementedException();
+            Categoria categoria = await db.Categoria.Where(c => c.CategoriaId == evento.CategoriaId).FirstOrDefaultAsync();
+            Sala sala = await db.Sala.Where(s => s.SalaId == evento.SalaId).FirstOrDefaultAsync();
+            Comunidade comunidade = await db.Comunidade.Where(c => c.ComunidadeId == evento.ComunidadeId).FirstOrDefaultAsync();
+
+            if(categoria != null &&  sala != null && comunidade != null)
+            {
+                   db.Add(evento);
+                  await db.SaveChangesAsync(); 
+            }
+        
+           return null;
         }
 
         public Task<ActionResult<List<Evento>>> RealizeUser()
