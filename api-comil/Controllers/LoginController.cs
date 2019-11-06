@@ -69,7 +69,7 @@ namespace api_comil.Controllers
                     var resp = db.Usuario.Include(t => t.TipoUsuario).FirstOrDefault(user => user.Email == login.Email && user.Senha == login.Senha);
                   
 
-                            if (resp != null)
+                            if (resp != null && resp.DeletedoEm == null)
                             {
                                 var tokenString = gerarToken(resp);
                                 var id = resp.UsuarioId;
