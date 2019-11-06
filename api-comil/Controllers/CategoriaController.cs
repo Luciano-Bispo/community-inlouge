@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using api_comil.Models;
 using api_comil.Repositorios;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,8 @@ namespace api_comil.Controllers
     {
         CategoriaRepositorio repositorio = new CategoriaRepositorio();
 
+
+        [Authorize(Roles ="Administrador")]
         [HttpGet]
 
         public async Task<ActionResult<List<Categoria>>> Get()
@@ -26,6 +29,8 @@ namespace api_comil.Controllers
             return ListaDeCategorias;
         }
 
+
+        [Authorize(Roles ="Administrador")]
         [HttpGet("{id}")]
 
         public async Task<ActionResult<Categoria>> Get(int id)
@@ -38,6 +43,8 @@ namespace api_comil.Controllers
             return categoriaRetornada;
         }
 
+
+        [Authorize(Roles ="Administrador")]
         [HttpDelete("{id}")]
 
         public async Task<ActionResult<Categoria>> Delete(int id)
@@ -55,6 +62,9 @@ namespace api_comil.Controllers
             }
             return categoriaRetornada;
         }
+
+
+        [Authorize(Roles ="Administrador")]
         [HttpPost]
         public async Task<ActionResult<Categoria>> Post(Categoria categoria)
         {
