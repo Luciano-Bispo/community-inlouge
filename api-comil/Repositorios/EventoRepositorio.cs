@@ -1,4 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using api_comil.Interfaces;
 using api_comil.Models;
@@ -12,9 +16,18 @@ namespace api_comil.Repositorios
     {
         communityInLoungeContext db = new communityInLoungeContext();
 
-        public Task<ActionResult> Accept(int id)
+        
+
+
+        public async Task<Evento> Accept(Evento evento, int responsavel)
         {
-            throw new System.NotImplementedException();
+            evento.StatusEvento = "Aprovado";
+            db.Evento.Update(evento);
+
+            db.ResponsavelEventoTw.Add(new ResponsavelEventoTw{ Evento = evento.EventoId, ResponsavelEvento = responsavel });
+            Mensagem(evento.EmailContato);
+            await db.SaveChangesAsync();
+            return evento;
         }
 
         public Task<ActionResult<List<Evento>>> ApprovedUser()
@@ -34,10 +47,12 @@ namespace api_comil.Repositorios
 
         public async Task<ActionResult<List<Evento>>> Get()
         {
-
              var listEven = await db.Evento
             .Include(i => i.Categoria)
-            .Include(i => i.Comunidade).ToListAsync();
+            .Include(i => i.Comunidade)
+            .Where(w => w.StatusEvento == "Aprovado")
+            .Where(w => w.DeletedoEm == null )
+            .ToListAsync();
 
             foreach (var item in listEven)
             {
@@ -48,16 +63,16 @@ namespace api_comil.Repositorios
             return listEven;
         }
 
-        public async Task<ActionResult<Evento>> Get(int id)
+
+        public async Task<Evento> Get(int id)
         {
             var evento = await db.Evento
-             .Include(i => i.Categoria)
+            .Include(i => i.Categoria)
             .Include(c => c.Comunidade)
+            .Where(w => w.StatusEvento == "Aprovado")
+            .Where(w => w.DeletedoEm == null )
             .FirstOrDefaultAsync(f => f.EventoId == id);
 
-            evento.Categoria.Evento = null;
-            evento.Comunidade.Evento = null;
-            
             return evento;
         }
 
@@ -101,10 +116,56 @@ namespace api_comil.Repositorios
             throw new System.NotImplementedException();
         }
 
-        public Task<ActionResult> Reject(int id)
+        public async Task<Evento> Reject(Evento evento, int idResponsavel)
         {
-            throw new System.NotImplementedException();
+            evento.StatusEvento = "Recusado"; 
+            db.Evento.Update(evento);
+
+           Mensagem(evento.EmailContato);
+
+            db.ResponsavelEventoTw.Add(new ResponsavelEventoTw{ Evento = evento.EventoId, ResponsavelEvento = idResponsavel });
+
+            await db.SaveChangesAsync();
+            return evento;
         }
+
+
+        private void Mensagem (string email) {
+            try {
+                // Estancia da Classe de Mensagem
+                MailMessage _mailMessage = new MailMessage ();
+                // Remetente
+                _mailMessage.From = new MailAddress (email);
+
+                // Destinatario seta no metodo abaixo
+
+                //Contrói o MailMessage
+                _mailMessage.CC.Add(email);
+                _mailMessage.Subject = "TESTELIGHT CODE XP";
+                _mailMessage.IsBodyHtml = true;
+                _mailMessage.Body = "<b>Olá Tudo bem ??</b><p>Teste Parágrafo</p>";
+
+                //CONFIGURAÇÃO COM PORTA
+                SmtpClient _smtpClient = new SmtpClient("smtp.gmail.com", Convert.ToInt32("587"));
+
+                //CONFIGURAÇÃO SEM PORTA
+                // SmtpClient _smtpClient = new SmtpClient(UtilRsource.ConfigSmtp);
+
+                // Credencial para envio por SMTP Seguro (Quando o servidor exige autenticação);
+                _smtpClient.UseDefaultCredentials = false;
+
+                _smtpClient.Credentials = new NetworkCredential("communitythoughtworks@gmail.com", "tw.123456");
+
+                _smtpClient.EnableSsl = true;
+
+                _smtpClient.Send (_mailMessage);
+
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+
 
         public Task<ActionResult<List<Evento>>> Search(string filtro)
         {
@@ -125,5 +186,6 @@ namespace api_comil.Repositorios
         {
             throw new System.NotImplementedException();
         }
+
     }
 }
