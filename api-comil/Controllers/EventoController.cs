@@ -4,6 +4,7 @@ using api_comil.Models;
 using api_comil.Repositorios;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api_comil.Controllers {
     [ApiController]
@@ -86,6 +87,35 @@ namespace api_comil.Controllers {
            }
             
         }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, Evento evento)
+        {
+        if(id != evento.EventoId) return BadRequest();
+        if(evento.DeletedoEm != null) return NotFound();   
+                
+
+        try        
+        {
+            Evento eventoValido = EventoRep.Get(id).Result;
+            if(eventoValido == null)
+            {
+            return NotFound();
+            }
+            else
+            {  
+            await EventoRep.Update(evento);
+            }
+            
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+        throw;
+        }
+        return NoContent();
+     
+    }
 
 
        [Authorize(Roles = "Administrador")]

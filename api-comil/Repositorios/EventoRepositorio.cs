@@ -217,12 +217,19 @@ namespace api_comil.Repositorios
         }
 
 
-        public Task<ActionResult<Evento>> Update()
+        public async Task<ActionResult<Evento>> Update(Evento evento)
         {
-            throw new System.NotImplementedException();
+        if(evento.StatusEvento == "Aprovado")
+        {
+            Evento eventoRetornado = await db.Evento.FindAsync(evento.EventoId);
+            eventoRetornado.Nome = evento.Nome;
+            db.Evento.Update(eventoRetornado);
+        }else
+        {
+           db.Entry(evento).State = EntityState.Modified;
+        }
+        return evento;
         }
 
-
-      
     }
 }
