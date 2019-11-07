@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using api_comil.Interfaces;
 using api_comil.Models;
@@ -75,5 +76,14 @@ namespace api_comil.Repositorios
                 throw;
             }
         }
+
+        public async Task<Usuario> VerificarEmail(string email)
+        {
+            Usuario usuario = await db.Usuario.FirstOrDefaultAsync(us => us.Email == email);
+
+            return usuario;
+        }
     }
 }
+
+        
