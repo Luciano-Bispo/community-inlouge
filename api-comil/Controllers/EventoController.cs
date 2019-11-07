@@ -46,6 +46,7 @@ namespace api_comil.Controllers {
                 throw;
             }
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Evento>> Get(int id){
            try
@@ -92,10 +93,10 @@ namespace api_comil.Controllers {
         public async Task<ActionResult<Evento>> Reject(int idEvento, int idResp){
 
             var responsavel = await db.Usuario.FindAsync(idResp);
-         // var responsavel = await UsuarioRep.Get(idResp);
+             // var responsavel = await UsuarioRep.Get(idResp);
            
            var evento = await db.Evento.FindAsync(idEvento);
-         // var evento = await EventoRep.Get(idEvento);
+            // var evento = await EventoRep.Get(idEvento);
 
            if (responsavel == null && evento == null){
 
@@ -105,10 +106,59 @@ namespace api_comil.Controllers {
                 return await EventoRep.Reject(evento, responsavel.UsuarioId);
            }
 
-           }
-            
-
-
-            
         }
+            
+
+        [HttpGet("Mes")]
+         public async Task<ActionResult<List<Evento>>> Mouth(){
+            return await EventoRep.Mounth();
+         }
+
+            //ADM
+          [HttpGet("EventosAceitos/{id}")]
+         public async Task<ActionResult<List<ResponsavelEventoTw>>> MyEventsAccept(int id){
+            return await EventoRep.MyEventsAccept(id);
+         }
+
+
+           //ADM
+          [HttpGet("EventosRecusados/{id}")]
+         public async Task<ActionResult<List<ResponsavelEventoTw>>> MyEventsReject(int id){
+             
+                return await EventoRep.MyEventsReject(id);
+         }
+
+          //ADM
+          [HttpGet("EventosPendentes/{id}")]
+         public async Task<ActionResult<List<ResponsavelEventoTw>>> PendingMounth(int id){
+             
+                return await EventoRep.PendingMounth(id);
+         }
+
+          [HttpGet("EventoPorCategoria/{id}")]
+         public async Task<ActionResult<List<Evento>>> EventByCategory(int id){
+             
+                return await EventoRep.EventByCategory(id);
+         }
+
+
+         //ADM
+          [HttpGet("EventosPendentesUsuario/{id}")]
+         public async Task<ActionResult<List<ResponsavelEventoTw>>> PendingUser(int id){
+             
+                return await EventoRep.PendingUser(id);
+         }
+
+        [HttpGet("EventosRealizadosUsuario/{id}")]
+        public async Task<ActionResult<List<ResponsavelEventoTw>>> RealizeUser(int id){
+             
+                return await EventoRep.RealizeUser(id);
+         }
+
+[HttpGet("EventosAprovadosUsuario/{id}")]
+        public async Task<ActionResult<List<ResponsavelEventoTw>>> ApprovedUser(int id){
+             
+                return await EventoRep.ApprovedUser(id);
+         }
+    }
 }

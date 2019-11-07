@@ -15,10 +15,7 @@ namespace api_comil.Repositorios
     public class EventoRepositorio : IEvento
     {
         communityInLoungeContext db = new communityInLoungeContext();
-
         
-
-
         public async Task<Evento> Accept(Evento evento, int responsavel)
         {
             evento.StatusEvento = "Aprovado";
@@ -30,9 +27,15 @@ namespace api_comil.Repositorios
             return evento;
         }
 
-        public Task<ActionResult<List<Evento>>> ApprovedUser()
+        public async Task<ActionResult<List<ResponsavelEventoTw>>> ApprovedUser(int id)
         {
-            throw new System.NotImplementedException();
+             return await db.ResponsavelEventoTw
+                               .Include(w => w.EventoNavigation)
+                               .ThenInclude(w => w.Comunidade)
+                               .Where(w => w.EventoNavigation.StatusEvento == "Pendente")
+                               .Where(w => w.DeletedoEm == null)
+                               .Where(w =>  w.EventoNavigation.Comunidade.ResponsavelUsuarioId == id)
+                               .ToListAsync();
         }
 
         public Task<ActionResult> Delete()
@@ -40,9 +43,18 @@ namespace api_comil.Repositorios
             throw new System.NotImplementedException();
         }
 
-        public Task<ActionResult<List<Evento>>> EventByCategory(string cat)
+        public async Task<ActionResult<List<Evento>>> EventByCategory(int id)
         {
-            throw new System.NotImplementedException();
+            var a = await db.Evento.Include(i => i.Categoria)
+                           .Where(w => w.CategoriaId == id)
+                           .ToListAsync();
+
+            foreach (var item in a)
+            {
+                item.Categoria.Evento = null;
+            }
+
+            return a;
         }
 
         public async Task<ActionResult<List<Evento>>> Get()
@@ -51,6 +63,7 @@ namespace api_comil.Repositorios
             .Include(i => i.Categoria)
             .Include(i => i.Comunidade)
             .Where(w => w.StatusEvento == "Aprovado")
+            .Where(w => w.Publico == "Público")
             .Where(w => w.DeletedoEm == null )
             .ToListAsync();
 
@@ -76,34 +89,57 @@ namespace api_comil.Repositorios
             return evento;
         }
 
-        public Task<ActionResult<List<Evento>>> Mounth()
+        public async Task<ActionResult<List<Evento>>> Mounth()
         {
-            throw new System.NotImplementedException();
+                return await db.Evento
+                    .Where(w => w.DeletedoEm == null)
+                    .Where(w => w.EventoData.Month == DateTime.Now.Month)
+                    .Where(w => w.Publico == "Público")
+                    .OrderBy(o => o.EventoData)
+                    .ToListAsync();
         }
 
-        public Task<ActionResult<List<Evento>>> MyEventsAccept()
+        public async Task<ActionResult<List<ResponsavelEventoTw>>> MyEventsAccept(int id)
         {
-            throw new System.NotImplementedException();
+                return await db.ResponsavelEventoTw
+                               .Include(w => w.EventoNavigation)
+                               .Where(w => w.EventoNavigation.StatusEvento == "Aprovado")
+                               .Where(w => w.DeletedoEm == null)
+                               .Where(w =>  w.ResponsavelEvento == id)
+                               .ToListAsync();
         }
 
-        public Task<ActionResult<List<Evento>>> MyEventsReject()
+        public async Task<ActionResult<List<ResponsavelEventoTw>>> MyEventsReject(int id)
         {
-            throw new System.NotImplementedException();
+             return await db.ResponsavelEventoTw
+                               .Include(w => w.EventoNavigation)
+                               .Where(w => w.EventoNavigation.StatusEvento == "Recusado")
+                               .Where(w => w.DeletedoEm == null)
+                               .Where(w =>  w.ResponsavelEvento == id)
+                               .ToListAsync();
         }
 
-        public Task<ActionResult<List<Evento>>> PendingMounth()
+        public async Task<ActionResult<List<ResponsavelEventoTw>>> PendingMounth(int id)
         {
-            throw new System.NotImplementedException();
+              return await db.ResponsavelEventoTw
+                               .Include(w => w.EventoNavigation)
+                               .Where(w => w.EventoNavigation.StatusEvento == "Pendente")
+                               .Where(w => w.EventoNavigation.Publico == "Público")
+                               .Where(w => w.DeletedoEm == null)
+                               .Where(w => w.EventoNavigation.EventoData.Month == DateTime.Now.Month)
+                               .Where(w =>  w.ResponsavelEvento == id)
+                               .ToListAsync();
         }
 
-        public Task<ActionResult<List<Evento>>> PendingUser()
+        public async Task<ActionResult<List<ResponsavelEventoTw>>> PendingUser(int id)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<ActionResult<List<Evento>>> PendingWeek()
-        {
-            throw new System.NotImplementedException();
+            return await db.ResponsavelEventoTw
+                               .Include(w => w.EventoNavigation)
+                               .ThenInclude(w => w.Comunidade)
+                               .Where(w => w.EventoNavigation.StatusEvento == "Pendente")
+                               .Where(w => w.DeletedoEm == null)
+                               .Where(w =>  w.EventoNavigation.Comunidade.ResponsavelUsuarioId == id)
+                               .ToListAsync();
         }
 
         public async Task<ActionResult<Evento>> Post(Evento evento)
@@ -121,9 +157,15 @@ namespace api_comil.Repositorios
            return null;
         }
 
-        public Task<ActionResult<List<Evento>>> RealizeUser()
+        public async Task<ActionResult<List<ResponsavelEventoTw>>> RealizeUser(int id)
         {
-            throw new System.NotImplementedException();
+             return await db.ResponsavelEventoTw
+                               .Include(w => w.EventoNavigation)
+                               .ThenInclude(w => w.Comunidade)
+                               .Where(w => w.EventoNavigation.StatusEvento == "Realizado")
+                               .Where(w => w.DeletedoEm == null)
+                               .Where(w =>  w.EventoNavigation.Comunidade.ResponsavelUsuarioId == id)
+                               .ToListAsync();
         }
 
         public async Task<Evento> Reject(Evento evento, int idResponsavel)
@@ -138,7 +180,6 @@ namespace api_comil.Repositorios
             await db.SaveChangesAsync();
             return evento;
         }
-
 
         private void Mensagem (string email) {
             try {
@@ -176,26 +217,12 @@ namespace api_comil.Repositorios
         }
 
 
-
-        public Task<ActionResult<List<Evento>>> Search(string filtro)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<ActionResult<List<Evento>>> ThougthworksEvents()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public Task<ActionResult<Evento>> Update()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ActionResult<List<Evento>>> Week()
-        {
-            throw new System.NotImplementedException();
-        }
 
+      
     }
 }
