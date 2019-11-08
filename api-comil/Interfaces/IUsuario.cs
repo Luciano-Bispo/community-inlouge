@@ -11,6 +11,5 @@ namespace api_comil.Interfaces
         Task<Usuario> Get(int id);
         Task<Usuario> Put(Usuario usuario);
         Task<Usuario> Delete(Usuario usuario);
-        Task<Usuario> VerificarEmail(string email);
     }
 }

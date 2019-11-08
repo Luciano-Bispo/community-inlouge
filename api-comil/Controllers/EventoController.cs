@@ -48,6 +48,12 @@ namespace api_comil.Controllers {
             }
         }
 
+
+        /// <summary>
+        /// Método de busca de um evento através de um Id
+        /// </summary>
+        /// <param name="id">Id do evento</param>
+        /// <returns>Comunidade correspondente ao Id</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Evento>> Get(int id){
            try
@@ -68,6 +74,13 @@ namespace api_comil.Controllers {
            }
         }
 
+
+        /// <summary>
+        /// Método onde um administradoe aceita um evento
+        /// </summary>
+        /// <param name="idEvento">Id do evento</param>
+        /// <param name="idResp"> Id do resposável pelo evento</param>
+        /// <returns>Evento aprovado</returns>
         [Authorize(Roles = "Administrador")]
         [HttpPost("aceppt/{idEvento}/{idResp}")]
         public async Task<ActionResult<Evento>> Accept(int idEvento, int idResp){
@@ -88,6 +101,13 @@ namespace api_comil.Controllers {
             
         }
 
+
+        /// <summary>
+        /// Método para atualização de dados de um evento
+        /// </summary>
+        /// <param name="id">Id do evento</param>
+        /// <param name="evento">Objeto evento</param>
+        /// <returns>Evento com dados atualizados</returns>
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, Evento evento)
@@ -118,6 +138,13 @@ namespace api_comil.Controllers {
     }
 
 
+
+        /// <summary>
+        /// Método onde um administrador recusa um evento
+        /// </summary>
+        /// <param name="idEvento">Id do evento</param>
+        /// <param name="idResp">Id do responsável pelo evento</param>
+        /// <returns>Evento rejeitado</returns>
        [Authorize(Roles = "Administrador")]
        [HttpPost("rejetc/{idEvento}/{idResp}")]
         public async Task<ActionResult<Evento>> Reject(int idEvento, int idResp){
@@ -137,58 +164,96 @@ namespace api_comil.Controllers {
            }
 
         }
-            
 
+        /// <summary>
+        /// Método de busca de eventos do mês correspondente
+        /// </summary>
+        /// <returns>eventos do mês</returns>
         [HttpGet("Mes")]
          public async Task<ActionResult<List<Evento>>> Mouth(){
             return await EventoRep.Mounth();
          }
 
-            //ADM
-          [HttpGet("EventosAceitos/{id}")]
+
+            ///adm
+           /// <summary>
+           /// Método de busca dos eventos aprovados pelo respectivo administrador
+           /// </summary>
+           /// <param name="id">Id do administrador</param>
+           /// <returns>Eventos que o respectivo administrador aceitou</returns>
+          [HttpGet("Aprovados/{id}")]
          public async Task<ActionResult<List<ResponsavelEventoTw>>> MyEventsAccept(int id){
             return await EventoRep.MyEventsAccept(id);
          }
 
 
            //ADM
-          [HttpGet("EventosRecusados/{id}")]
+           /// <summary>
+           /// Método dos eventos recusados pelo respectivo administrador
+           /// </summary>
+           /// <param name="id">Id do administrador</param>
+           /// <returns>Eventos recusados do respectivo administrador</returns>
+          [HttpGet("Recusados/{id}")]
          public async Task<ActionResult<List<ResponsavelEventoTw>>> MyEventsReject(int id){
              
                 return await EventoRep.MyEventsReject(id);
          }
 
           //ADM
-          [HttpGet("EventosPendentes/{id}")]
+          /// <summary>
+          /// Método de busca dos eventos que estão pendentes
+          /// </summary>
+          /// <param name="id">Id do evento</param>
+          /// <returns>Eventos pendentes</returns>
+          [HttpGet("Pendentes/{id}")]
          public async Task<ActionResult<List<ResponsavelEventoTw>>> PendingMounth(int id){
              
                 return await EventoRep.PendingMounth(id);
          }
 
-          [HttpGet("EventoPorCategoria/{id}")]
+            /// <summary>
+            /// Método de busca de evento através de uma categoria expecífica
+            /// </summary>
+            /// <param name="id">Id da categoria</param>
+            /// <returns>Eventos correspondentes à categoria</returns>
+          [HttpGet("Categoria/{id}")]
          public async Task<ActionResult<List<Evento>>> EventByCategory(int id){
              
                 return await EventoRep.EventByCategory(id);
          }
 
-
-         //ADM
-          [HttpGet("EventosPendentesUsuario/{id}")]
+        /// <summary>
+        /// Método de eventos pendentes do usuário
+        /// </summary>
+        /// <param name="id">Id do evento</param>
+        /// <returns>Retorna os eventos pendenetes do usuário</returns>
+        [HttpGet("PendentesUsuario/{id}")]
          public async Task<ActionResult<List<ResponsavelEventoTw>>> PendingUser(int id){
              
                 return await EventoRep.PendingUser(id);
          }
-
-        [HttpGet("EventosRealizadosUsuario/{id}")]
+        /// <summary>
+        /// Método de busca dos eventos já realizados pelo usuário
+        /// </summary>
+        /// <param name="id">Id do evento</param>
+        /// <returns>Eventos realizados pelo usuário</returns>
+        [HttpGet("RealizadosUsuario/{id}")]
         public async Task<ActionResult<List<ResponsavelEventoTw>>> RealizeUser(int id){
              
                 return await EventoRep.RealizeUser(id);
          }
 
-[HttpGet("EventosAprovadosUsuario/{id}")]
+         /// <summary>
+        /// Método de busca dos eventos do usuário que foram aprovados
+        /// </summary>
+        /// <param name="id">Id do evento</param>
+        /// <returns>Eventos do usuário que estão aprovados</returns>
+        [HttpGet("AprovadosUsuario/{id}")]
         public async Task<ActionResult<List<ResponsavelEventoTw>>> ApprovedUser(int id){
              
                 return await EventoRep.ApprovedUser(id);
          }
+
+         //em vez de receber o id pega do token 
     }
 }

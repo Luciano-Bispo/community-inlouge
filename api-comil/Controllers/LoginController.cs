@@ -27,7 +27,11 @@ namespace api_comil.Controllers
             this.configuration = configuration;
         }
 
-
+        /// <summary>
+        /// Método de login na plataforma
+        /// </summary>
+        /// <param name="login">Email e senha</param>
+        /// <returns>Token</returns>
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Login(LoginViewModel login){
@@ -73,8 +77,7 @@ namespace api_comil.Controllers
                             if (resp != null && resp.DeletedoEm == null)
                             {
                                 var tokenString = gerarToken(resp);
-                                var id = resp.UsuarioId;
-                                res = Ok(new { token = tokenString, UsuarioId = id });
+                                res = Ok(new { token = tokenString });
                             }
 
                             return res;

@@ -77,12 +77,19 @@ namespace api_comil.Repositorios
             }
         }
 
-        public async Task<Usuario> VerificarEmail(string email)
+        public async Task<Usuario> ExistEmail(string email)
         {
-            Usuario usuario = await db.Usuario.FirstOrDefaultAsync(us => us.Email == email);
-
-            return usuario;
+            try
+            {
+                return await db.Usuario.SingleOrDefaultAsync(u => u.Email == email);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
+
+
     }
 }
 
