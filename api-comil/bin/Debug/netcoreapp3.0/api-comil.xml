@@ -139,6 +139,54 @@
             <param name="login">Email e senha</param>
             <returns>Token</returns>
         </member>
+        <member name="M:api_comil.Controllers.ResponsavelEventoTwController.Get">
+            <summary>
+            Método Get, é para fazer a requisição HTTP ResponsavelEventoTw onde transmite a informação identificada na URL.
+            </summary>
+            <returns>Está retornando o ListaDeResponsavelEventoTw</returns>
+        </member>
+        <member name="M:api_comil.Controllers.ResponsavelEventoTwController.Get(System.Int32)">
+            <summary>
+            Método Get(id) é para fazer a requisição HTTP ResponsavelEventoTw pelo Id, onde transmite a informação identificada na URL.
+            </summary>
+            <param name="id"></param>
+            <returns>Está retornando o responsavelEventoTwRetornado</returns>
+        </member>
+        <member name="M:api_comil.Controllers.ResponsavelEventoTwController.Put(System.Int32,api_comil.Models.ResponsavelEventoTw)">
+            <summary>
+            Método Put é utilizado para criar ou atualizar uma informação identificada pela URL. Por exemplo: ResponsavelEventoTw.
+            </summary>
+            <param name="id"></param>
+            <param name="responsavelEventoTw"></param>
+            <returns>Esta retornando o return NoContent</returns>
+        </member>
+        <member name="M:api_comil.Controllers.ResponsavelEventoTwController.Post(api_comil.Models.ResponsavelEventoTw)">
+            <summary>
+            Método post, utilizado para criação de um novo dado no banco de dados.
+            </summary>
+            <param name="responsavelEventoTw"></param>
+            <returns>Está retornando o valor BadRequest</returns>
+        </member>
+        <member name="M:api_comil.Controllers.ResponsavelEventoTwController.Delete(System.Int32)">
+            <summary>
+            O método delete, serve para deletar dados cadastrados no banco de dados.
+            </summary>
+            <param name="id"></param>
+            <returns> Está retornando o responsavelEventoTwRetornado</returns>
+        </member>
+        <member name="M:api_comil.Controllers.SalaController.Get">
+            <summary>
+            Método Get, é para fazer a requisição HTTP Sala onde transmite a informação identificada na URL.
+            </summary>
+            <returns>Está retornando ListaDeSala</returns>
+        </member>
+        <member name="M:api_comil.Controllers.SalaController.Get(System.Int32)">
+            <summary>
+            Método Get(id) é para fazer a requisição HTTP Sala pelo Id, onde transmite a informação identificada na URL.
+            </summary>
+            <param name="id"></param>
+            <returns>Está retornando salaRetornada</returns>
+        </member>
         <member name="M:api_comil.Controllers.TipoUsuarioController.Get">
             <summary>
             Método de Listar tipo de Usuário 
