@@ -91,7 +91,6 @@ namespace api_comil
             {
                 endpoints.MapControllers();
             });
-
             // Habilitamos efetivamente o Swagger em nossa aplicação.
             app.UseSwagger();
             // Especificamos o endpoint da documentação
