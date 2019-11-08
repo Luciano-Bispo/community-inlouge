@@ -6,8 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using System.Reflection;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
@@ -91,7 +91,9 @@ namespace api_comil
             {
                 endpoints.MapControllers();
             });
-             app.UseSwagger();
+
+            // Habilitamos efetivamente o Swagger em nossa aplicação.
+            app.UseSwagger();
             // Especificamos o endpoint da documentação
             app.UseSwaggerUI(c =>
             {

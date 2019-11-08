@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace api_comil.Models
 {
@@ -19,10 +21,12 @@ namespace api_comil.Models
         [Required]
         [StringLength(30)]
         public string Titulo { get; set; }
+       
         [Column("Deletedo_em", TypeName = "datetime")]
         public DateTime? DeletedoEm { get; set; }
 
         [InverseProperty("TipoUsuario")]
         public virtual ICollection<Usuario> Usuario { get; set; }
+    
     }
 }
