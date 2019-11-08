@@ -42,9 +42,10 @@ namespace api_comil.Controllers
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             //definindo claims / dados da sessão 
             var claims = new[]{
+                new Claim(JwtRegisteredClaimNames.Jti, usr.UsuarioId.ToString()),
                 new Claim(JwtRegisteredClaimNames.NameId, usr.Nome),
                 new Claim(ClaimTypes.Role, usr.TipoUsuario.Titulo),
-                new Claim(JwtRegisteredClaimNames.Sub, usr.UsuarioId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, Guid.NewGuid().ToString()),
                 new Claim("Roles", usr.TipoUsuario.Titulo)
 
             };
